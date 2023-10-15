@@ -6,14 +6,14 @@ import step.learning.servlets.*;
 
 public class RouterModule extends ServletModule {
     @Override
-    protected void configureServlets() {
-        // Третий способ конфига фильтров и сервлетов - IoC
+    protected void configureServlets()
+    {
+        // Третій спосіб конфігурування фільтрів сервлетів - ІоС
         filter("/*").through(CharsetFilter.class);
-
         serve("/").with(HomeServlet.class);
         serve("/filters").with(FiltersServlet.class);
-        serve("/ioc").with(IocServlet.class);
         serve("/jsp").with(JspServlet.class);
+        serve("/ioc").with(IocServlet.class);
         serve("/signup").with(SignupServlet.class);
     }
 }
