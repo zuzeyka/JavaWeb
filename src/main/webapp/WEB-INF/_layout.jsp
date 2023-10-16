@@ -1,3 +1,4 @@
+<%@ page import="java.util.Date" %>
 <%@ page contentType="text/html;charset=UTF-8"  %>
 <%
     String pageBody = (String) request.getAttribute("page-body");
@@ -9,7 +10,7 @@
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
     <link type="text/css" rel="stylesheet" href="css/materialize.min.css"  media="screen,projection"/>
-    <link rel="stylesheet" href="<%=context%>/css/site.css">
+    <link rel="stylesheet" href="<%=context%>/css/site.css?time=<%= new Date().getTime() %>">
 </head>
 <body>
 <nav>
@@ -21,8 +22,7 @@
             <li <%=pageBody.equals("jsp.jsp") ? "class='active'" : ""%>><a href="<%= context %>/jsp">JSP</a></li>
             <li <%=pageBody.equals("filters.jsp") ? "class='active'" : ""%>><a href="<%= context %>/filters">Filters</a></li>
             <li <%=pageBody.equals("ioc.jsp") ? "class='active'" : ""%>><a href="<%= context %>/ioc">IoC</a></li>
-
-            <li><a href="collapsible.html">JavaScript</a></li>
+            <li <%=pageBody.equals("db.jsp") ? "class='active'" : ""%>><a href="<%= context %>/db">DB</a></li>
         </ul>
     </div>
 </nav>
@@ -31,7 +31,7 @@
     <jsp:include page="<%=pageBody%>"/>
 </div>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
-<script src="<%=context%>/js/site.js"></script>
+<script src="<%=context%>/js/site.js?time=<%= new Date().getTime() %>"></script>
 <div id="auth-modal" class="modal">
     <div class="modal-content">
         <h4>Modal Header</h4>
