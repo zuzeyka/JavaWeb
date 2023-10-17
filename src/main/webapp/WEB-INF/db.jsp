@@ -1,6 +1,9 @@
+<%@ page import="step.learning.dto.entitites.CallMe" %>
+<%@ page import="java.util.List" %>
 <%@ page contentType="text/html;charset=UTF-8"  %>
 <%
     String connectionStatus = (String) request.getAttribute("connectionStatus");
+    List<CallMe> calls = (List<CallMe>) request.getAttribute("calls");
 %>
 <h1>Работа с базами данных</h1>
 <h2>JDBC</h2>
@@ -34,9 +37,46 @@
 <h2>Управление данными</h2>
 <p>
     <button id="db-create-button" class="waves-effect pink lighten-2 btn"><i class="material-icons right">cloud</i>create</button>
-    <input name="user-name" placeholder="Name">
-    <input name="user-phone" placeholder="Phone">
-    <button id="db-insert-button" class="waves-effect pink lighten-2 btn"><i class="material-icons right">phone_iphone</i>Order call</button>
+    <input name="user-name" placeholder="Name" type="text">
+    <input name="user-phone" placeholder="Phone" type="tel">
+    <span id="phone-error" style="color: red; display: none;">Invalid phone number</span>
+    <button id="db-insert-button" class="waves-effect pink lighten-2 btn" onclick="validatePhone()"><i class="material-icons right">phone_iphone</i>Order call</button>
     <br>
     <u id="out"></u>
 </p>
+<div class="row">
+    <button id="db-read-button" class="waves-effect pink lighten-2 btn"><i class="material-icons right">view_list</i>Check order</button>
+</div>
+
+<table>
+    <thead>
+    <tr>
+        <th>Name</th>
+        <th>Phone</th>
+    </tr>
+    </thead>
+    <tbody>
+    <% if (calls != null) {for (CallMe call : calls) { %>
+    <tr>
+        <td><%= call.getName() %></td>
+        <td><%= call.getPhone() %></td>
+    </tr>
+    <% }} %>
+    </tbody>
+</table>
+
+<script>
+    function validatePhone() {
+        var phoneInput = document.querySelector('[name="user-phone"]');
+        var phoneError = document.getElementById('phone-error');
+        var phonePattern = /^\+38\s?(\(\d{3}\)|\d{3})\s?\d{3}(-|\s)?\d{2}(-|\s)?\d{2}$/;
+        var isValidPhone = phonePattern.test(phoneInput.value);
+
+        if (!isValidPhone) {
+            phoneError.style.display = 'block';
+        } else {
+            phoneError.style.display = 'none';
+            // Proceed with order placement
+        }
+    }
+</script>

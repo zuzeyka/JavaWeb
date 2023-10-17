@@ -11,7 +11,7 @@
     String birthdateValue = model == null ? "" : model.getBirthdateAsString();
     Map<String,String> errors = model == null ? new HashMap<String,String>() : model.getErrorMessages();
     String regMessage = (String) request.getAttribute("reg-message");
-     if(regMessage == null)
+    if(regMessage == null)
     {
         regMessage = "";
     }
@@ -23,14 +23,14 @@
             <div class="input-field col s6">
                 <i class="material-icons prefix">badge</i>
                 <input value="<%=loginValue%>" id="reg-login" name="reg-login" type="text" class="validate">
-                <span id="loginError" class="helper-text red-text" data-error="wrong" data-success="right"></span>
+                <span id="loginError" class="helper-text red-text"></span>
                 <label for="reg-login">Логін на сайті</label>
             </div>
             <div class="input-field col s6">
                 <i class="material-icons prefix">person</i>
                 <input value="<%=nameValue%>" id="reg-name" name="reg-name" type="text" class="validate">
                 <label for="reg-name">Реальне ім'я</label>
-                <span id="nameError" class="helper-text red-text" data-error="wrong" data-success="right"></span>
+                <span id="nameError" class="helper-text red-text"></span>
             </div>
         </div>
         <div class="row">
@@ -38,13 +38,13 @@
                 <i class="material-icons prefix">lock</i>
                 <input  id="reg-password" name="reg-password" type="password" class="validate">
                 <label for="reg-password">Пароль</label>
-                <span id="passwordError" class="helper-text red-text" data-error="wrong" data-success="right"></span>
+                <span id="passwordError" class="helper-text red-text"></span>
             </div>
             <div class="input-field col s6">
                 <i class="material-icons prefix">lock_open</i>
                 <input  id="reg-repeat" name="reg-repeat" type="password" class="validate">
                 <label for="reg-repeat">Повторіть пароль</label>
-                <span id="repeatError" class="helper-text red-text" data-error="wrong" data-success="right"></span>
+                <span id="repeatError" class="helper-text red-text"></span>
             </div>
         </div>
         <div class="row">
@@ -52,13 +52,13 @@
                 <i class="material-icons prefix">alternate_email</i>
                 <input value="<%=emailValue%>" id="reg-email" name="reg-email" type="email" class="validate">
                 <label for="reg-email">E-mail</label>
-                <span id="emailError" class="helper-text red-text" data-error="wrong" data-success="right"></span>
+                <span id="emailError" class="helper-text red-text"></span>
             </div>
             <div class="input-field col s6">
                 <i class="material-icons prefix">cake</i>
                 <input value="<%=birthdateValue%>>" id="reg-birthdate" name="reg-birthdate" type="date" class="validate">
                 <label for="reg-birthdate">Дата народження</label>
-                <span id="birthdateError" class="helper-text red-text" data-error="wrong" data-success="right"></span>
+                <span id="birthdateError" class="helper-text red-text"></span>
             </div>
         </div>
         <div class="row">
@@ -67,17 +67,18 @@
                 <label> &emsp;
                     <input id="reg-rules" name="reg-rules" type="checkbox" class="filled-in validate">
                     <span>Не буду нічого порушувати</span>
-                    <span id="rulesError" class="helper-text red-text" data-error="wrong" data-success="right"></span>
+                    <span id="rulesError" class="helper-text red-text"></span>
                 </label>
             </div>
 
             <div class="file-field input-field col s6">
                 <div class="btn pink lighten-2">
                     <span>File</span>
-                    <input  name="reg-avatar" type="file">
+                    <input  name="reg-avatar" id="fileInput" accept="image/*" type="file">
                 </div>
                 <div class="file-path-wrapper">
-                    <input placeholder="Upload file" class="file-path validate" type="text">
+                    <input placeholder="Upload file" id="filePath" class="file-path validate" type="text">
+                    <span id="fileError" class="helper-text red-text"></span>
                 </div>
             </div>
 
@@ -96,6 +97,7 @@
         var emailValue = document.getElementById("reg-email").value;
         var birthdateValue = document.getElementById("reg-birthdate").value;
         var rulesCheckbox = document.getElementById("reg-rules");
+        var fileInput = document.getElementById("fileInput");
 
         var errors = {};
 
@@ -129,17 +131,33 @@
             errors.rules = "Для реєстрації вам необхідно прийняти правила";
         }
 
+        if (fileInput.files.length === 0) {
+            errors.file = "Необхідно вибрати зображення";
+        } else {
+            var file = fileInput.files[0];
+            var fileType = file.type;
+            var validImageTypes = ["image/jpeg", "image/png", "image/gif"];
+
+            if (!validImageTypes.includes(fileType)) {
+                errors.file = "Допустимі формати зображень: JPEG, PNG, або GIF";
+            }
+        }
+
+        var errorSpans = document.getElementsByClassName("helper-text");
+        for (var i = 0; i < errorSpans.length; i++) {
+            errorSpans[i].innerHTML = "";
+        }
+
         // Проверка на наличие ошибок
         if (Object.keys(errors).length > 0) {
-            // Вывод ошибок
             for (var key in errors) {
                 var errorSpan = document.getElementById(key + "Error");
                 if (errorSpan) {
                     errorSpan.innerHTML = errors[key];
                 }
             }
-            return false; // Остановите отправку формы
+            return false;
         }
-        return true; // Разрешите отправку формы, если все поля заполнены корректно
+        return true;
     }
 </script>

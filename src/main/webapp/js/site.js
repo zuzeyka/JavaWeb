@@ -11,6 +11,8 @@ document.addEventListener('DOMContentLoaded',function (){
   if (createButton) createButton.addEventListener("click", createButtonClick);
   const insertButton = document.getElementById("db-insert-button");
   if (insertButton) insertButton.addEventListener("click", insertButtonClick);
+  const readButton = document.getElementById("db-read-button");
+  if (readButton) readButton.addEventListener("click", readButtonClick);
 });
 
 function createButtonClick(){
@@ -38,4 +40,9 @@ function insertButtonClick() {
   }).then(r => r.json()).then(j => {
     console.log(j);
   });
+}
+function readButtonClick(){
+  fetch(window.location.href, {
+    method: "COPY"
+  }).then(r => r.json()).then(console.log);
 }
