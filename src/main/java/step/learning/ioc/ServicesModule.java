@@ -6,12 +6,16 @@ import step.learning.services.db.DbProvider;
 import step.learning.services.db.PlanetDbProvider;
 import step.learning.services.formparse.FormParseService;
 import step.learning.services.formparse.MixedFormParseService;
+import step.learning.services.kdf.DigestHashKdfService;
+import step.learning.services.kdf.KdfService;
 import step.learning.services.random.RandomServiceV1;
 import step.learning.services.random.RandomService;
 import step.learning.services.hash.Md5HashService;
 import step.learning.services.hash.HashService;
 import step.learning.services.hash.Sha1HashService;
 import com.google.inject.AbstractModule;
+
+import java.util.Date;
 
 public class    ServicesModule extends AbstractModule {
 
@@ -27,7 +31,7 @@ public class    ServicesModule extends AbstractModule {
          */
         if( randomService == null ) {
             randomService = new RandomServiceV1() ;
-            randomService.seed( "0" ) ;  // як приклад того, що самого конструктора не достатньо
+            randomService.seed( String.valueOf(new Date().getTime()) ) ;  // як приклад того, що самого конструктора не достатньо
         }
         return randomService ;
     }
@@ -43,6 +47,7 @@ public class    ServicesModule extends AbstractModule {
 
         bind(FormParseService.class).to(MixedFormParseService.class);
         bind(DbProvider.class).to(PlanetDbProvider.class);
+        bind(KdfService.class).to(DigestHashKdfService.class);
 
         bind( String.class)
                 .annotatedWith(Names.named("db-prefix"))

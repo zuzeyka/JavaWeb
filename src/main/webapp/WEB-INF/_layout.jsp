@@ -23,6 +23,7 @@
             <li <%=pageBody.equals("filters.jsp") ? "class='active'" : ""%>><a href="<%= context %>/filters">Filters</a></li>
             <li <%=pageBody.equals("ioc.jsp") ? "class='active'" : ""%>><a href="<%= context %>/ioc">IoC</a></li>
             <li <%=pageBody.equals("db.jsp") ? "class='active'" : ""%>><a href="<%= context %>/db">DB</a></li>
+            <li <%=pageBody.equals("spa.jsp") ? "class='active'" : ""%>><a href="<%= context %>/spa">SPA</a></li>
         </ul>
     </div>
 </nav>
@@ -31,14 +32,29 @@
     <jsp:include page="<%=pageBody%>"/>
 </div>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
-<script src="<%=context%>/js/site.js?time=<%= new Date().getTime() %>"></script>
+<script src="<%=context%>/js/site.js"></script>
+<script src="<%=context%>/js/spa.js?time=<%= new Date().getTime() %>"></script>
 <div id="auth-modal" class="modal">
     <div class="modal-content">
-        <h4>Modal Header</h4>
-        <p>A bunch of text</p>
+        <h4>Авторизацiя</h4>
+        <div class="row">
+            <div class="input-field col s6">
+                <i class="material-icons prefix">badge</i>
+                <input id="auth-login" name="reg-login" type="text" class="validate">
+                <span id="loginError" class="helper-text red-text"></span>
+                <label for="auth-login">Логін на сайті</label>
+            </div>
+            <div class="input-field col s6">
+                <i class="material-icons prefix">lock</i>
+                <input id="auth-password" name="reg-name" type="text" class="validate">
+                <label for="auth-password">Пароль</label>
+                <span id="passwordError" class="helper-text red-text"></span>
+            </div>
+        </div>
     </div>
     <div class="modal-footer">
-        <a href="<%=context%>/signup" class="modal-close waves-effect waves-green btn-flat pink lighten-2">Enter</a>
+        <b id="auth-message"></b>
+        <a href="#!" id="auth-sign-in" class="waves-effect waves-green btn-flat pink lighten-2">Enter</a>
         <a href="<%=context%>/signup" class="modal-close waves-effect waves-green btn-flat pink lighten-2">Registration</a>
     </div>
 </div>
