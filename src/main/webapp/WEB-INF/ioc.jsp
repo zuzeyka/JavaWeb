@@ -1,40 +1,46 @@
-<%@ page contentType="text/html;charset=UTF-8"%>
-<h1>Инверсия управление в веб-приложении</h1>
-<ul>
-    <li>
-        Добавляем зависимости:
-        Guice Core
-        Guice servlet
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<h1>Інверсія управління у веб-застосунку</h1>
+<ul class="collection with-header">
+    <li class="collection-header"><h4>Реалізація IoC</h4></li>
+    <li class="collection-item">
+        1. Додаємо залежності:
+        <a href="https://mvnrepository.com/artifact/com.google.inject/guice/6.0.0">
+            Guice Core
+        </a>
+        та
+        <a href="https://mvnrepository.com/artifact/com.google.inject.extensions/guice-servlet/6.0.0">
+            Guice servlet
+        </a>
     </li>
     <li class="collection-item">
-        Создаем пакет "ioc", в котором объявляем класс – слушатель события
-        образование контекста (IocContextListener), наследуем от
-        GuiceServletContextListener, имплементируем метод getInjector()
+        2. Створюємо пакет "ioc", у якому оголошуємо клас - слухач події
+        утворення контексту (IocContextListener), спадковуємо від
+        GuiceServletContextListener, імплементуємо метод getInjector
     </li>
     <li class="collection-item">
-        Регистрируем этот класс в качестве слушателя (обработчика) события
-        создание контекста в web.xml, тут же регистрируем фильтр, но
+        3. Реєструємо цей клас у якості слухача (обробника) події
+        створення контексту у web.xml, тут же реєструємо фільтр, але
         не наш, а Guice (com.google.inject.servlet.GuiceFilter)
     </li>
     <li class="collection-item">
-        Создаем конфигурационные модули для инжектора (в пакете ioc):
-        RouterModule (для настройки сервлетов и фильтров),
-        ServicesModule (для настройки служб).
-        В классе IocContextListener указываем объекты этих классов
+        4. Створюємо конфігураційні модулі для інжектора:
+        RouterModule (для налаштування сервлетів та фільтрів),
+        ServicesModule (для налаштування служб)
+        У класі IocContextListener зазначаємо об'єкти цих класів
     </li>
     <li class="collection-item">
-        Переносим конфигурацию (роутинг) фильтров и сервлетов
-        в RouterModule: удаляем из web.xml все записи (кроме новых),
-        а также снимаем аннотации @WebFilter и @WebServlet
+        5. Переносимо конфігурацію (роутінг) фільтрів та сервлетів
+        у RouterModule: видаляємо з web.xml всі записи (окрім нових)
+        а також знімаємо анотації @WebFilter та @WebServlet
     </li>
     <li class="collection-item">
-        !!! Добавляем аннотацию @Singleton ко всем классам фильтров и
-        сервлетов
+        6. !!! Додаємо анотацію @Singleton до усіх класів фільтрів та
+        сервлетів
     </li>
-
     <li class="collection-item">
-        Проверяем: hash(123) = <%= request.getAttribute("hash") %> rand(123) = <%= request.getAttribute("rand")%>
+        7. Перевіряємо: hash(123) = <%=request.getAttribute("hash")%>
     </li>
-
-
+    <li class="collection-item">
+        8. Перевіряємо: randomHex(6) = <%=request.getAttribute("random")%>
+    </li>
 </ul>

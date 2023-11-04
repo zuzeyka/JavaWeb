@@ -1,5 +1,5 @@
 package step.learning.services.hash;
 
 public interface HashService {
-    String hash( String input ) ;
+    String hash(String input);
 }

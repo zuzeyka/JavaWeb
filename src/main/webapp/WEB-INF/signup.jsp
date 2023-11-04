@@ -1,163 +1,129 @@
 <%@ page import="step.learning.dto.models.RegFormModel" %>
 <%@ page import="java.util.Map" %>
 <%@ page import="java.util.HashMap" %>
-<%@ page contentType="text/html;charset=UTF-8" %>
-<h2>Реєстрація користувача</h2>
+<%@ page import="step.learning.dto.models.RegistrationValidationModel" %>
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%
+    // Перевіряємо чи є повідомлення попередньої форми, формуємо значення для полів
     RegFormModel model = (RegFormModel) request.getAttribute("reg-model");
     String loginValue = model == null ? "" : model.getLogin();
     String nameValue = model == null ? "" : model.getName();
     String emailValue = model == null ? "" : model.getEmail();
     String birthdateValue = model == null ? "" : model.getBirthdateAsString();
-    Map<String,String> errors = model == null ? new HashMap<String,String>() : model.getErrorMessages();
+    RegistrationValidationModel validationModel = model == null ? new RegistrationValidationModel() : model.getErrorMessages();
     String regMessage = (String) request.getAttribute("reg-message");
-    if(regMessage == null)
-    {
+    String loginValid = validationModel.getLoignMessage().isEmpty() ? "valid" : "invalid";
+    if (regMessage == null) {
         regMessage = "";
     }
+//    Map<String, String> errors = model == null ? new HashMap<String, String>() : (HashMap<String, String>) model.getErrorMessages();
 %>
-<p><%= regMessage %></p>
+<h2>Реєстрація користувача</h2>
+
+<p><%=request.getAttribute("reg-message")%>
+</p>
 <div class="row">
-    <form class="col s12" method="post" action="" enctype="multipart/form-data">
+    <form class="col s12" method="post" enctype="multipart/form-data" action="">
         <div class="row">
             <div class="input-field col s6">
                 <i class="material-icons prefix">badge</i>
-                <input value="<%=loginValue%>" id="reg-login" name="reg-login" type="text" class="validate">
-                <span id="loginError" class="helper-text red-text"></span>
+                <input value="<%= loginValue %>" name="reg-login" id="reg-login" type="text"
+                       class="validate <% if (!validationModel.getLoignMessage().isEmpty()) { %>invalid<% } %>">
                 <label for="reg-login">Логін на сайті</label>
+                <% if (!validationModel.getLoignMessage().isEmpty()) { %>
+                <span class="helper-text" data-error="<%=validationModel.getLoignMessage()%>">Helper text</span>
+                <% } %>
             </div>
             <div class="input-field col s6">
                 <i class="material-icons prefix">person</i>
-                <input value="<%=nameValue%>" id="reg-name" name="reg-name" type="text" class="validate">
+                <input value="<%= nameValue %>" name="reg-name" id="reg-name" type="text"
+                       class="validate <%=loginValid%>">
                 <label for="reg-name">Реальне ім'я</label>
-                <span id="nameError" class="helper-text red-text"></span>
+                <% if (!validationModel.getNameMessage().isEmpty()) { %>
+                <span class="helper-text" data-error="<%=validationModel.getNameMessage()%>">Helper text</span>
+                <% } %>
             </div>
         </div>
         <div class="row">
             <div class="input-field col s6">
                 <i class="material-icons prefix">lock</i>
-                <input  id="reg-password" name="reg-password" type="password" class="validate">
+                <input name="reg-password" id="reg-password" type="password" class="validate">
                 <label for="reg-password">Пароль</label>
-                <span id="passwordError" class="helper-text red-text"></span>
             </div>
             <div class="input-field col s6">
                 <i class="material-icons prefix">lock_open</i>
-                <input  id="reg-repeat" name="reg-repeat" type="password" class="validate">
+                <input name="reg-repeat" id="reg-repeat" type="password" class="validate">
                 <label for="reg-repeat">Повторіть пароль</label>
-                <span id="repeatError" class="helper-text red-text"></span>
             </div>
         </div>
         <div class="row">
             <div class="input-field col s6">
                 <i class="material-icons prefix">alternate_email</i>
-                <input value="<%=emailValue%>" id="reg-email" name="reg-email" type="email" class="validate">
+                <input value="<%= emailValue %>" name="reg-email" id="reg-email" type="email"
+                       class="validate <% if (!validationModel.getEmailMessage().isEmpty()) { %>invalid<% } %>">
                 <label for="reg-email">E-mail</label>
-                <span id="emailError" class="helper-text red-text"></span>
+                <% if (!validationModel.getEmailMessage().isEmpty()) { %>
+                <span class="helper-text" data-error="<%=validationModel.getEmailMessage()%>">Helper text</span>
+                <% } %>
             </div>
             <div class="input-field col s6">
                 <i class="material-icons prefix">cake</i>
-                <input value="<%=birthdateValue%>>" id="reg-birthdate" name="reg-birthdate" type="date" class="validate">
+                <input value="<%= birthdateValue %>" name="reg-birthdate" id="reg-birthdate" type="date"
+                       class="validate <% if (!validationModel.getDateMessage().isEmpty()) { %>invalid<% } %>">
                 <label for="reg-birthdate">Дата народження</label>
-                <span id="birthdateError" class="helper-text red-text"></span>
+                <% if (!validationModel.getDateMessage().isEmpty()) { %>
+                <span class="helper-text" data-error="<%=validationModel.getDateMessage()%>">Helper text</span>
+                <% } %>
             </div>
         </div>
         <div class="row">
             <div class="input-field col s6">
                 <i class="material-icons prefix">receipt_long</i>
                 <label> &emsp;
-                    <input id="reg-rules" name="reg-rules" type="checkbox" class="filled-in validate">
+                    <input name="reg-rules" id="reg-rules" type="checkbox" class="filled-in validate">
                     <span>Не буду нічого порушувати</span>
-                    <span id="rulesError" class="helper-text red-text"></span>
                 </label>
             </div>
-
-            <div class="file-field input-field col s6">
+            <div class="file-field input-field">
                 <div class="btn pink lighten-2">
-                    <span>File</span>
-                    <input  name="reg-avatar" id="fileInput" accept="image/*" type="file">
+                    <i class="material-icons">account_box</i>
+                    <input type="file" name="reg-avatar">
                 </div>
                 <div class="file-path-wrapper">
-                    <input placeholder="Upload file" id="filePath" class="file-path validate" type="text">
-                    <span id="fileError" class="helper-text red-text"></span>
+                    <input class="file-path validate" type="text"
+                           placeholder="Зображення аватарка">
                 </div>
             </div>
-
-            <div class="input-field col s6 right-align">
-                <button name="submitButton" class="waves-effect waves-light btn pink lighten-2" onclick="return validateForm();"><i class="material-icons right">how_to_reg</i>Реєстрація</button>
+            <div class="input-field row right-align">
+                <button class="waves-effect waves-light btn pink lighten-2"><i
+                        class="material-icons right">how_to_reg</i>Реєстрація
+                </button>
             </div>
         </div>
     </form>
 </div>
-<script>
-    function validateForm() {
-        var loginValue = document.getElementById("reg-login").value;
-        var nameValue = document.getElementById("reg-name").value;
-        var passwordValue = document.getElementById("reg-password").value;
-        var repeatValue = document.getElementById("reg-repeat").value;
-        var emailValue = document.getElementById("reg-email").value;
-        var birthdateValue = document.getElementById("reg-birthdate").value;
-        var rulesCheckbox = document.getElementById("reg-rules");
-        var fileInput = document.getElementById("fileInput");
 
-        var errors = {};
+<ul class="collection with-header">
+    <li class="collection-header"><h4>Передача файлів через форми.</h4></li>
+    <li class="collection-item">
+        1. Передача файлів можлива лише методом POST та з кодвуанням
+        пакету <code>multipart/form-data</code> (за замовчуванням, форма передається
+        з іншим кодуванням <code>application/x-www-form-urlencoded</code>).
+        Також переконуємось у наявності атрибута name у файловому інпуті.
+    </li>
+    <li class="collection-item">
+        2. Приймання пакетів з боку сервера вимагає окремої обробки.
+        Для цього вживаються додаткові модулі залежності. Наприклад,
+        <a href="https://mvnrepository.com/artifact/commons-fileupload/commons-fileupload">Apache Commons FileUpload</a>
+    </li>
+    <li class="collection-item">
+        3. В ASP для роботи з файлами є інтерфейс IFromFile, його аналог в обраному
+        пакеті - FileItem. У формі, окрім файлів, також передаються інші поля( у
+        текстовому вигляді). Відповідно, результат розбору (парсингу) форми є
+        дві колекції - файлів та полів. Для повернення єдиного результату ( з двох
+        колекцій) слід зробити спільний інтерфейс.
+    </li>
+    <li class="collection-item"></li>
+    <li class="collection-item"></li>
+</ul>
 
-        if (loginValue.trim() === "") {
-            errors.login = "Логін обов'язковий для заповнення";
-        }
-
-        if (nameValue.trim() === "") {
-            errors.name = "Реальне ім'я обов'язкове для заповнення";
-        }
-
-        if (passwordValue.trim() === "") {
-            errors.password = "Пароль обов'язковий для заповнення";
-        }
-
-        if (repeatValue.trim() === "") {
-            errors.repeat = "Повторіть пароль";
-        } else if (passwordValue !== repeatValue) {
-            errors.repeat = "Паролі не співпадають";
-        }
-
-        if (emailValue.trim() === "") {
-            errors.email = "E-mail обов'язковий для заповнення";
-        }
-
-        if (birthdateValue.trim() === "") {
-            errors.birthdate = "Дата народження обов'язкова для заповнення";
-        }
-
-        if (!rulesCheckbox.checked) {
-            errors.rules = "Для реєстрації вам необхідно прийняти правила";
-        }
-
-        if (fileInput.files.length === 0) {
-            errors.file = "Необхідно вибрати зображення";
-        } else {
-            var file = fileInput.files[0];
-            var fileType = file.type;
-            var validImageTypes = ["image/jpeg", "image/png", "image/gif"];
-
-            if (!validImageTypes.includes(fileType)) {
-                errors.file = "Допустимі формати зображень: JPEG, PNG, або GIF";
-            }
-        }
-
-        var errorSpans = document.getElementsByClassName("helper-text");
-        for (var i = 0; i < errorSpans.length; i++) {
-            errorSpans[i].innerHTML = "";
-        }
-
-        // Проверка на наличие ошибок
-        if (Object.keys(errors).length > 0) {
-            for (var key in errors) {
-                var errorSpan = document.getElementById(key + "Error");
-                if (errorSpan) {
-                    errorSpan.innerHTML = errors[key];
-                }
-            }
-            return false;
-        }
-        return true;
-    }
-</script>

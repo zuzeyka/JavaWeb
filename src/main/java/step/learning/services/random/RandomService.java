@@ -1,7 +1,7 @@
 package step.learning.services.random;
 
 public interface RandomService {
-    void seed( String iv ) ;  // init vector
+    public void seed(String iv);
 
-    String randomHex( int charLength ) ;
+    String randomHex(int length);
 }

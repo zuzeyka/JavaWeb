@@ -1,14 +1,45 @@
-<%@ page contentType="text/html;charset=UTF-8"%>
+<%@ page contentType="text/html;charset=UTF-8" %>
 <h1>SPA</h1>
-
 <p>
-  Автентифікація та авторизація за допомогою токенів здійснюється наступним чином:<br/>
-- користувач вводить логін та пароль, формується асинхронний запит до АРІ авторизації, у відповідь отримується токен.<br/>
-- токен перевіряється на цілісність та зберігається у локальному сховищі. Подальші запити включають одержаний токен до заголовків.
+    Автентифікація та авторизація - за допомогою токенів здійснюється
+    наступним чином:<br/>
 </p>
-<p>
-    Наявність токену на сторінці: <b id="spa-token-status"></b>
-</p>
+<ul class="collection">
+    <li class="collection-item">
+        1. користувач вводить логін та пароль, формується асинхронний запит
+        до API авторизації, у відповідь отримується токен.
+    </li>
+    <li class="collection-item">
+        2. токен перевіряється на цілісніть та зберігається у локальному
+        сховищі. Подальші запити включають одержаний токен до
+        заголовків
+    </li>
+    <li class="collection-item">
+        3. Наявність токену на сторінці: <b id="spa-token-status"></b>
+    </li>
+    <li class="collection-item">
+        4. Термін дії токену на сторінці до: <b id="spa-token-exp"></b>
+    </li>
+    <li class="collection-item">
+        5. Активність токену: <b id="spa-token-activity"></b>
+    </li>
+</ul>
 <auth-part></auth-part>
-<button class="btn pink lighten-2" id="spa-get-data">Data</button>
-<button class="btn pink lighten-2" id="spa-log-out">Exit</button>
+<div class="row">
+    <div class="col s2">
+        <button class="btn pink lighten-2" id="spa-get-data">Дані</button>
+    </div>
+    <div class="col s2">
+        <button class="btn pink lighten-2" id="spa-get-protected">ІзОД</button>
+    </div>
+    <div class="col s2">
+        <button class="btn pink lighten-2" id="spa-get-products">Товари</button>
+    </div>
+    <div class="col s2">
+        <button class="btn pink lighten-2" id="spa-notfound">404</button>
+    </div>
+    <div class="col s2">
+        <button class="btn pink lighten-2" id="spa-logout">Вихід</button>
+    </div>
+
+</div>

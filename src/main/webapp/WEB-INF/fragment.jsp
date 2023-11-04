@@ -1,2 +1,2 @@
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<h2>Hello from fragment</h2>
+<%@ page contentType="text/html;charset=UTF-8"%>
+<h2>Вітання з фрагменту</h2>

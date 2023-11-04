@@ -14,11 +14,13 @@ public class SpaServlet extends HttpServlet {
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         req.setAttribute("page-body", "spa.jsp");
         req.getRequestDispatcher("WEB-INF/_layout.jsp")
-                .forward(req, resp); // - return View()
+                .forward(req, resp); // ~ return View()
     }
 }
 /*
-SPA - Single Page Application - схеми построения браузерного приложения,
-в котором переход между разными страничками "имитируется",
-тоесть страничка остается та же самая, но обновляется контент
+SPA - Single Page Application - схема побудови браузерного застосунку,
+у якому перехід між різними сторінками "імітується",
+тобто сторінка залишається та ж сама, але оновлюються її частини
+(контент)
  */
+

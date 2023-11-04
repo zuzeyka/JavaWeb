@@ -13,28 +13,28 @@ public class User {
     private String passDk;  // RFC 2898  DK - derived key
     private String email;
     private String emailCode;
-
     private Date birthdate;
     private String avatarUrl;
-    private Date registerAt ;
-    private Date deleteAt ;
+    private Date registerAt;
+    private Date deleteAt;
 
 
-    public User( ResultSet resultSet ) throws SQLException {
-        this.setId( resultSet.getString( "id" ) ) ;
-        this.setLogin( resultSet.getString( "login" ) ) ;
-        this.setName( resultSet.getString( "name" ) ) ;
-        this.setEmail( resultSet.getString( "email" ) ) ;
-        this.setSalt( resultSet.getString( "salt" ) ) ;
-        this.setPassDk( resultSet.getString( "pass_dk" ) ) ;
-        this.setBirthdate( resultSet.getDate( "birthdate" ) ) ;
-        this.setAvatarUrl( resultSet.getString( "avatar_url" ) ) ;
-        this.setEmailCode( resultSet.getString( "email_code" ) ) ;
+    public User(ResultSet resultSet) throws SQLException {
+        this.setId(resultSet.getString("id"));
+        this.setLogin(resultSet.getString("login"));
+        this.setName(resultSet.getString("name"));
+        this.setEmail(resultSet.getString("email"));
+        this.setSalt(resultSet.getString("salt"));
+        this.setPassDk(resultSet.getString("pass_dk"));
+        this.setBirthdate(resultSet.getDate("birthdate"));
+        this.setAvatarUrl(resultSet.getString("avatar_url"));
+        this.setEmailCode(resultSet.getString("email_code"));
 
-        Timestamp moment = resultSet.getTimestamp( "reg_at" ) ;
-        this.setRegisterAt( moment == null ? null : new Date( moment.getTime() ) ) ;
-        moment = resultSet.getTimestamp( "del_at" ) ;
-        this.setDeleteAt( moment == null ? null : new Date( moment.getTime() ) );
+        Timestamp moment = resultSet.getTimestamp("reg_at");
+        this.setRegisterAt(moment == null ? null : new Date(moment.getTime()));
+        moment = resultSet.getTimestamp("del_at");
+        this.setDeleteAt(moment == null ? null : new Date(moment.getTime()));
+        ;
     }
 
     public String getEmailCode() {

@@ -12,8 +12,8 @@ import java.io.IOException;
 public class JspServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        req.setAttribute("page-body", "jsp.jsp");
+        req.setAttribute("page-body", "about.jsp");
         req.getRequestDispatcher("WEB-INF/_layout.jsp")
-                .forward(req, resp); // - return View()
+                .forward(req, resp);
     }
 }
